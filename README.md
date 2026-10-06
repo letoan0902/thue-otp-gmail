@@ -103,7 +103,7 @@ Gốc `https://otpgmail.net` · JSON · Thành công: `{ "success": true, "data"
 | `POST /v1/orders/{orderId}/cancel` | – | đơn đã hủy (chỉ hủy được khi chưa có mã) |
 
 - `domain`: `gmail.com` (mặc định) hoặc `icloud.com`. Tool cũ không gửi `domain` vẫn chạy bình thường và nhận Gmail.
-- `quantity`: 1–50 mail/lần gọi (mặc định 1). Chỉ tính tiền số mail thực cấp.
+- `quantity`: 1–200 mail/lần gọi (mặc định 1; trần là cài đặt chung, có thể khác theo tài khoản). Chỉ tính tiền số mail thực cấp.
 - Tài liệu đầy đủ: <https://otpgmail.net/app/docs?utm_source=github&utm_medium=readme&utm_campaign=vi>
 
 ### Mã lỗi nên xử lý
@@ -113,9 +113,9 @@ Gốc `https://otpgmail.net` · JSON · Thành công: `{ "success": true, "data"
 | `NO_MAILS_AVAILABLE`, `OUT_OF_STOCK` | 503 / 409 | Tạm hết mail cho dịch vụ + định dạng đó | Không |
 | `DOMAIN_UNAVAILABLE` | 409 | Dịch vụ chưa có iCloud hoặc iCloud tạm tắt → gọi lại với `gmail.com` | Không |
 | `INSUFFICIENT_BALANCE` | 402 | Số dư không đủ | Không |
-| `QUANTITY_EXCEEDED` | 400 | Quá 50 mail trong một lần gọi | Không |
+| `QUANTITY_EXCEEDED` | 400 | Quá trần số mail một lần gọi (mặc định 200) | Không |
 | `WAITING_LIMIT_REACHED` | 429 | Quá nhiều đơn đang chờ mã → hủy bớt hoặc đợi xong | Không |
-| `RATE_LIMITED` | 429 | Gọi quá nhanh (giới hạn 10 request/giây, 300/phút) → đọc `Retry-After` | Không |
+| `RATE_LIMITED` | 429 | Gọi quá nhanh (mặc định 20 request/giây, 900/phút mỗi key; số đang áp dụng hiện ở trang Tài liệu API) → đọc `Retry-After` | Không |
 
 ### Kinh nghiệm khi viết tool
 
@@ -168,7 +168,7 @@ Xem thêm: [Thuê iCloud nhận OTP](https://otpgmail.net/thue-icloud?utm_source
 
 **Dịch vụ tôi cần chưa có trong danh sách?** Dùng mã `ot` (Dịch vụ bất kỳ) hoặc bấm **Thêm dịch vụ** ở trang thuê mail.
 
-**Cần số lượng lớn?** API nhận `quantity` tới 50 mail/lần; trên web có **Thuê theo lô** tới 200 mail, giữ 24 giờ.
+**Cần số lượng lớn?** API nhận `quantity` tới 200 mail/lần; trên web còn có **Thuê theo lô** tới 200 mail, giữ 24 giờ.
 
 **Liên hệ hỗ trợ ở đâu?** Zalo / Telegram tại [trang Liên hệ](https://otpgmail.net/app/contact?utm_source=github&utm_medium=readme&utm_campaign=vi).
 
